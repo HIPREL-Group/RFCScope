@@ -1,8 +1,8 @@
 # RFCScope
 
-This is the artifact for _RFCScope: Detecting Logically Ambiguous Bugs in Internet Protocol Specifications_, appearing in **ASE 2025**.
+This is the artifact for _RFCScope: Detecting Logical Ambiguities in Internet Protocol Specifications_, published in **ASE 2025**.
 
-[Paper draft](https://wenxiwang.github.io/papers/rfcscope/rfcscope_paper.pdf). [Video](http://mrigank.in/RFCScope-video). [Poster](https://mrigank.in/media/ASE2025Poster.pdf). [Slides](https://mrigank.in/media/ASE2025Slides.pdf).
+[Paper](https://ieeexplore.ieee.org/document/11334266). [Video](http://mrigank.in/RFCScope-video). [Poster](https://mrigank.in/media/ASE2025Poster.pdf). [Slides](https://mrigank.in/media/ASE2025Slides.pdf).
 
 ## This repository
 
@@ -47,3 +47,15 @@ The `detected-bugs/` directory contains the bugs selected after manual inspectio
 ### Implementation of RFCScope
 
 The `RFCScope/` directory contains our implementation of the _RFCScope_ tool. Please head over to that directory for instructions on running the tool.
+
+## Citing this work
+
+```bibtex
+@inproceedings{rfcscope,
+  author={Pawagi, Mrigank and Shao, Lize and Lee, Hyeonmin and Sun, Yixin and Wang, Wenxi},
+  booktitle={2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)}, 
+  title={RFCScope: Detecting Logical Ambiguities in Internet Protocol Specifications}, 
+  year={2025},
+  doi={10.1109/ASE63991.2025.00106}
+}
+```
