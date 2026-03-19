@@ -73,7 +73,7 @@
     </div>
     <div class="stat-item" role="listitem">
       <span class="stat-num">3</span>
-      <span class="stat-label">Verified errata</span>
+      <span class="stat-label">Verified official errata</span>
     </div>
   </div>
 </section>
@@ -84,7 +84,7 @@
 <section id="authors" aria-labelledby="authors-title" class="section-centered">
   <div class="container">
     <div class="section-label">Authors</div>
-    <h2 class="section-title" id="authors-title">Authors</h2>
+    <h2 class="section-title" id="authors-title"></h2>
     <div class="authors-grid">
       <div class="author-card">
         <a href="https://mrigank.in/" target="_blank" rel="noopener noreferrer" aria-label="Mrigank Pawagi, IISc Bengaluru (opens in new tab)">
@@ -140,22 +140,21 @@
     <div class="motivation-cards">
       <div class="step-card">
         <h3>🤖 Why LLMs are a promising fit</h3>
-        <p>LLMs can read and reason over heterogeneous formats — natural language, formal notations, pseudocode, diagrams, tables — and apply broad domain knowledge. They can also combine information from different sources and can apply common networking knowledge. This makes them well-suited for detecting logical ambiguities in RFCs.</p>
+        <p>LLMs can read and reason over heterogeneous formats like natural language, formal notations, pseudocode, diagrams, or tables that are present in RFCs. They can also combine information from different sources and can apply common networking knowledge. This makes them well-suited for detecting logical ambiguities in RFCs.</p>
       </div>
       <div class="step-card">
         <h3>⚠️ Challenges of applying LLMs</h3>
         <ul class="challenge-list">
-          <li>RFCs are often lengthy and exceed LLM input limits</li>
-          <li>Ambiguity detection requires reasoning across multiple interrelated documents</li>
-          <li>LLMs lack specialized domain knowledge about logical ambiguities in Internet protocols</li>
-          <li>LLMs are prone to hallucinating plausible but incorrect conclusions</li>
+          <li>Not only are RFCs often lengthy, their analysis requires reasoning across multiple interrelated documents. These can easily exceed the context window of LLMs.</li>
+          <li>LLMs lack specialized domain knowledge about logical ambiguities in Internet protocols.</li>
+          <li>LLMs are prone to hallucinating plausible but incorrect conclusions.</li>
         </ul>
       </div>
       <div class="step-card">
         <h3>📌 Our contributions</h3>
-        <p><strong>Empirical Study</strong> — the first systematic taxonomy of logical ambiguities from 273 verified RFC errata.<br><br>
-        <strong>Framework</strong> — RFCScope, the first approach capable of systematically detecting logical ambiguities in RFCs.<br><br>
-        <strong>Real-world Impact</strong> — 31 new ambiguities found, 8 confirmed by RFC authors, 3 officially verified as RFC errata.</p>
+        <p><strong>Empirical Study</strong> — the first systematic taxonomy of logical ambiguities from 273 verified technical errata from Standards Track RFCs.</p>
+        <p><strong>Framework</strong> — RFCScope, the first scalable framework for detecting logical ambiguities in RFCs.</p>
+        <p><strong>Real-world Impact</strong> — 31 new ambiguities found, 8 confirmed by RFC authors, 3 officially verified as RFC errata.</p>
       </div>
     </div>
   </div>
@@ -228,38 +227,38 @@
     <div class="section-label">Methodology</div>
     <h2 class="section-title" id="approach-title">How RFCScope works</h2>
     <p class="section-desc">
-      A four-stage LLM pipeline that constructs targeted context, semantically partitions specs, detects bugs with type-aware prompts, and filters hallucinations through structured re-validation.
+      RFCScope is a four-stage LLM pipeline. Given an RFC, it builds targeted cross-document context, partitions the spec into analysis-ready segments, detects ambiguities with type-aware prompts, and filters false positives through structured re-validation.
     </p>
     <div class="figure-block figure-block-spaced">
-      <img src="assets/img/approach.jpg" alt="RFCScope pipeline overview" loading="lazy" />
+      <img src="assets/img/method_flow.png" alt="RFCScope pipeline overview" loading="lazy" />
       <div class="figure-caption">End-to-end overview of the RFCScope pipeline, from raw RFC input to verified errata reports.</div>
     </div>
     <div class="pipeline-steps">
       <div class="step-card">
         <div class="step-num" aria-hidden="true">1</div>
         <h3>Context Constructor</h3>
-        <p>Selectively extracts relevant content from all referenced documents — both RFC and non-RFC — using semantic search and LLM-powered summarization. Only what matters gets passed forward.</p>
+        <p>Processes the RFC paragraph-by-paragraph to identify all references to other documents and retrieve the relevant content from those documents. For RFC references with a specific section number, it retrieves that section directly. For references without a section number, it uses semantic search to find the most relevant section. For non-RFC documents, it summarizes the referenced content. The context of a section is the aggregation of the contexts of all its paragraphs.</p>
       </div>
       <div class="step-card">
         <div class="step-num" aria-hidden="true">2</div>
         <h3>Partitioner</h3>
-        <p>Semantically segments the RFC along its natural section hierarchy, keeping each chunk within the LLM's context window while preserving logical coherence and cross-section dependencies.</p>
+        <p>Splits the RFC and its associated context into self-contained segments that each fit within the LLM's context window. Segments are constructed dynamically to maximize the amount of relevant context included in each one, minimizing the number of LLM invocations during analysis.</p>
       </div>
       <div class="step-card">
         <div class="step-num" aria-hidden="true">3</div>
         <h3>Analyzer</h3>
-        <p>Uses bug-type-aware prompts and chain-of-thought reasoning to detect potential ambiguities across all seven subtypes, producing detailed candidate errata reports.</p>
+        <p>Processes one segment at a time, prompting an LLM to identify logical ambiguities within the segment and its context. The fine-grained taxonomy of ambiguity subtypes guides the LLM with definitions, detection strategies, and real illustrative examples drawn from the errata study. The Analyzer produces a candidate report for each detected ambiguity.</p>
       </div>
       <div class="step-card">
         <div class="step-num" aria-hidden="true">4</div>
         <h3>Evaluator</h3>
-        <p>A second LLM pass independently re-validates each finding from scratch, rejecting hallucinated or out-of-scope reports before the final manual review step.</p>
+        <p>An LLM-based judge that validates each candidate report by independently reconstructing the analysis and checking it against a checklist of criteria — whether the issue is mentioned elsewhere, intentionally left to the implementer's discretion, or even relevant to the document. Reports that fail are filtered out as false positives.</p>
       </div>
     </div>
     <div class="figure-block-wrapper">
       <div class="figure-block">
         <img src="assets/img/ctx_constructor_flow.png" alt="Context Constructor workflow" loading="lazy" />
-        <div class="figure-caption">The Context Constructor resolves reference tags to specific sections or keyphrases, then retrieves RFC section content via semantic search and summarizes non-RFC documents via web-enabled LLM.</div>
+        <div class="figure-caption">The Context Constructor resolves reference tags to specific sections or keyphrases, retrieves RFC section content via semantic search, and summarizes non-RFC documents via a web-enabled LLM.</div>
       </div>
     </div>
   </div>
