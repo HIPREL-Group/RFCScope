@@ -236,7 +236,7 @@ section.section-bg-white { background: #fff; }
 
 /* ── PIPELINE FIGURE ── */
 .figure-block {
-  background: #fafbfd;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -393,6 +393,9 @@ section.section-bg-white { background: #fff; }
     width: 70%;
     display: block;
     margin: 0 auto;
+  }
+  .results-grid .figure-block:first-child {
+    background: #fafbfd;
   }
 }
 
