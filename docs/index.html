@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFCScope: Detecting Logical Ambiguities in Internet Protocol Specifications</title>
+  <meta name="description" content="RFCScope is the first automated framework for detecting logical ambiguities (inconsistencies and under-specifications) in IETF RFC protocol specifications, published at ASE 2025." />
+  <meta name="author" content="Mrigank Pawagi, Lize Shao, Hyeonmin Lee, Yixin Sun, Wenxi Wang" />
+  <meta name="theme-color" content="#1a2744" />
+  <link rel="canonical" href="https://hiprel-group.github.io/RFCScope/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hiprel-group.github.io/RFCScope/" />
+  <meta property="og:title" content="RFCScope — Detecting Logical Ambiguities in Internet Protocol Specifications" />
+  <meta property="og:description" content="RFCScope is the first automated framework for detecting logical ambiguities in IETF RFC protocol specifications, published at ASE 2025." />
+  <meta property="og:image" content="https://hiprel-group.github.io/RFCScope/assets/img/method_flow.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RFCScope — Detecting Logical Ambiguities in Internet Protocol Specifications" />
+  <meta name="twitter:description" content="RFCScope is the first automated framework for detecting logical ambiguities in IETF RFC protocol specifications, published at ASE 2025." />
+  <meta name="twitter:image" content="https://hiprel-group.github.io/RFCScope/assets/img/method_flow.png" />
+
+  <link rel="icon" href="assets/img/hiprel-icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ── NAV ── -->
+<nav aria-label="Main navigation">
+  <a class="nav-brand" href="#hero">RFCScope</a>
+  <ul>
+    <li><a href="#motivation">Background</a></li>
+    <li><a href="#study">Study</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#errata">Errata</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <h1><span class="hero-title-name">RFCScope</span>: Detecting Logical Ambiguities in Internet Protocol Specifications</h1>
+  <div class="hero-badge">ASE 2025 &nbsp;·&nbsp; IEEE/ACM</div>
+  <p class="hero-subtitle">
+    RFCScope is the first scalable framework for detecting logical ambiguities in Internet Standards Track RFCs — the documents that define how the Internet works — using a modular LLM pipeline grounded in a systematic study of 11 years of verified technical errata.
+  </p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="https://ieeexplore.ieee.org/document/11334266" target="_blank" rel="noopener noreferrer">📄 Paper</a>
+    <a class="btn btn-outline" href="https://mrigank.in/RFCScope-video" target="_blank" rel="noopener noreferrer">🎬 Video</a>
+    <a class="btn btn-outline" href="https://mrigank.in/media/ASE2025Poster.pdf" target="_blank" rel="noopener noreferrer">🖼 Poster</a>
+    <a class="btn btn-outline" href="https://mrigank.in/media/ASE2025Slides.pdf" target="_blank" rel="noopener noreferrer">📊 Slides</a>
+    <a class="btn btn-outline" href="https://github.com/HIPREL-Group/RFCScope" target="_blank" rel="noopener noreferrer">⭐ GitHub</a>
+  </div>
+  <div class="stats-bar" role="list" aria-label="Key statistics">
+    <div class="stat-item" role="listitem">
+      <span class="stat-num">273</span>
+      <span class="stat-label">Past errata studied</span>
+    </div>
+    <div class="stat-item" role="listitem">
+      <span class="stat-num">31</span>
+      <span class="stat-label">New ambiguities found</span>
+    </div>
+    <div class="stat-item" role="listitem">
+      <span class="stat-num">8</span>
+      <span class="stat-label">Confirmed ambiguities</span>
+    </div>
+    <div class="stat-item" role="listitem">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Verified official errata</span>
+    </div>
+  </div>
+</section>
+
+<main id="main-content">
+
+<!-- ── AUTHORS ── -->
+<section id="authors" aria-labelledby="authors-title" class="section-centered">
+  <div class="container">
+    <div class="section-label">Authors</div>
+    <h2 class="section-title" id="authors-title"></h2>
+    <div class="authors-grid">
+      <div class="author-card">
+        <a href="https://mrigank.in/" target="_blank" rel="noopener noreferrer" aria-label="Mrigank Pawagi, IISc Bengaluru (opens in new tab)">
+          <div class="author-name">Mrigank Pawagi</div>
+          <div class="author-affil">IISc Bengaluru</div>
+        </a>
+      </div>
+      <div class="author-card">
+        <a href="https://slz2003.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Lize Shao, University of Virginia (opens in new tab)">
+          <div class="author-name">Lize Shao</div>
+          <div class="author-affil">University of Virginia</div>
+        </a>
+      </div>
+      <div class="author-card">
+        <a href="https://hyeonmin-lee.com/" target="_blank" rel="noopener noreferrer" aria-label="Hyeonmin Lee, University of Virginia (opens in new tab)">
+          <div class="author-name">Hyeonmin Lee</div>
+          <div class="author-affil">University of Virginia</div>
+        </a>
+      </div>
+      <div class="author-card">
+        <a href="https://www.cs.virginia.edu/~ys3kz/" target="_blank" rel="noopener noreferrer" aria-label="Yixin Sun, University of Virginia (opens in new tab)">
+          <div class="author-name">Yixin Sun</div>
+          <div class="author-affil">University of Virginia</div>
+        </a>
+      </div>
+      <div class="author-card">
+        <a href="https://wenxiwang.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Wenxi Wang, University of Virginia (opens in new tab)">
+          <div class="author-name">Wenxi Wang</div>
+          <div class="author-affil">University of Virginia</div>
+        </a>
+      </div>
+    </div>
+    <div class="affil-logos">
+      <img src="assets/img/iisc.png" alt="Indian Institute of Science" class="affil-logo" />
+      <img src="assets/img/uva.png" alt="University of Virginia" class="affil-logo" />
+      <a href="https://wenxiwang.github.io/group.html" target="_blank" rel="noopener noreferrer">
+        <img src="assets/img/hiprel.png" alt="HIPREL Research Group" class="affil-logo" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MOTIVATION ── -->
+<section id="motivation" aria-labelledby="motivation-title">
+  <div class="container">
+    <div class="section-label">Background</div>
+    <h2 class="section-title" id="motivation-title">Why does this matter?</h2>
+    <div class="motivation-intro">
+      <p class="section-desc" style="margin-bottom:0;">
+        Internet protocol specifications, published as Requests for Comments (RFCs) by the IETF, are essential to ensuring the interoperability, security, and reliability of the Internet. However, ambiguities in these specifications — particularly <em>logical ambiguities</em> such as inconsistencies and under-specifications — can lead to critical misinterpretations and implementation errors. Unfortunately, such ambiguities remain largely overlooked and challenging to detect with existing tools.
+      </p>
+    </div>
+    <div class="motivation-cards">
+      <div class="step-card">
+        <h3>🤖 Why LLMs are a promising fit</h3>
+        <p>LLMs can read and reason over heterogeneous formats like natural language, formal notations, pseudocode, diagrams, or tables that are present in RFCs. They can also combine information from different sources and can apply common networking knowledge. This makes them well-suited for detecting logical ambiguities in RFCs.</p>
+      </div>
+      <div class="step-card">
+        <h3>⚠️ Challenges of applying LLMs</h3>
+        <ul class="challenge-list">
+          <li>Not only are RFCs often lengthy, their analysis requires reasoning across multiple interrelated documents. These can easily exceed the context window of LLMs.</li>
+          <li>LLMs lack specialized domain knowledge about logical ambiguities in Internet protocols.</li>
+          <li>LLMs are prone to hallucinating plausible but incorrect conclusions.</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <h3>📌 Our contributions</h3>
+        <p><strong>Empirical Study</strong> — the first systematic taxonomy of logical ambiguities from 273 verified technical errata from Standards Track RFCs.</p>
+        <p><strong>Framework</strong> — RFCScope, the first scalable framework for detecting logical ambiguities in RFCs.</p>
+        <p><strong>Real-world Impact</strong> — 31 new ambiguities found, 8 confirmed by RFC authors, 3 officially verified as RFC errata.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STUDY ── -->
+<section id="study" aria-labelledby="study-title" class="section-bg-white">
+  <div class="container">
+    <div class="section-label">Empirical Study</div>
+    <h2 class="section-title" id="study-title">A taxonomy of logical ambiguities</h2>
+    <p class="section-desc">
+      Through manual analysis of 273 verified technical errata from Standards Track RFCs (Jan 2014 – Jan 2025), we identified seven fine-grained subtypes of logical ambiguities in Standards Track RFCs.
+    </p>
+    <table class="taxonomy-table">
+      <caption>Taxonomy of logical ambiguities identified from 273 verified errata</caption>
+      <thead>
+        <tr>
+          <th scope="col">Category</th>
+          <th scope="col">ID</th>
+          <th scope="col">Description</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3" class="taxonomy-category taxonomy-category-i">Inconsistency<br><span class="taxonomy-subtotal">(202 total)</span></td>
+          <td><span class="tag tag-i">I-1</span></td>
+          <td>Direct inconsistency within or across specifications</td>
+          <td><span class="count-badge">119</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-i">I-2</span></td>
+          <td>Indirect inconsistency within or across specifications</td>
+          <td><span class="count-badge">70</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-i">I-3</span></td>
+          <td>Inconsistency with commonly accepted knowledge</td>
+          <td><span class="count-badge">13</span></td>
+        </tr>
+        <tr>
+          <td rowspan="4" class="taxonomy-category taxonomy-category-u">Under-specification<br><span class="taxonomy-subtotal">(37 total)</span></td>
+          <td><span class="tag tag-u">U-1</span></td>
+          <td>Direct under-specification due to undefined terms</td>
+          <td><span class="count-badge">7</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-u">U-2</span></td>
+          <td>Incomplete constraints (requires implementation feedback)</td>
+          <td><span class="count-badge">15</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-u">U-3</span></td>
+          <td>Indirect under-specification within or across specifications</td>
+          <td><span class="count-badge">10</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-u">U-4</span></td>
+          <td>Incorrect or missing references</td>
+          <td><span class="count-badge">5</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── APPROACH ── -->
+<section id="approach" aria-labelledby="approach-title">
+  <div class="container">
+    <div class="section-label">Methodology</div>
+    <h2 class="section-title" id="approach-title">How RFCScope works</h2>
+    <p class="section-desc">
+      RFCScope is a four-stage LLM pipeline. Given an RFC, the Context Constructor builds cross-document context by retrieving relevant content from all referenced documents. The Partitioner then splits the RFC and its context into self-contained segments. For each segment, the Analyzer identifies potential ambiguities and produces candidate errata reports. Finally, the Evaluator filters out false positives, and the remaining reports undergo a manual review.
+    </p>
+    <div class="figure-block figure-block-spaced figure-padded">
+      <img src="assets/img/method_flow.png" alt="RFCScope pipeline overview" loading="lazy" />
+      <div class="figure-caption">End-to-end overview of the RFCScope pipeline, from raw RFC input to verified errata reports.</div>
+    </div>
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <div class="step-num" aria-hidden="true">1</div>
+        <h3>Context Constructor</h3>
+        <p>Processes the RFC paragraph-by-paragraph to identify all references to other documents and retrieve the relevant content from those documents. For RFC references with a specific section number, it retrieves that section directly. For references without a section number, it uses semantic search to find the most relevant section. For non-RFC documents, it summarizes the referenced content.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num" aria-hidden="true">2</div>
+        <h3>Partitioner</h3>
+        <p>Splits the RFC and its associated context into self-contained segments that each fit within the LLM's context window. Segments are constructed dynamically to maximize the amount of relevant context included in each one, minimizing the number of LLM invocations during analysis.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3>Analyzer</h3>
+        <p>Processes one segment at a time, prompting an LLM to identify logical ambiguities within the segment. The fine-grained taxonomy of ambiguity subtypes guides the LLM with definitions, detection strategies, and real illustrative examples drawn from the errata study. The Analyzer produces a candidate report for each detected ambiguity.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num" aria-hidden="true">4</div>
+        <h3>Evaluator</h3>
+        <p>An LLM-based judge that validates each candidate report by independently reconstructing the analysis and checking it against a checklist of criteria — whether the issue is mentioned elsewhere, intentionally left to the implementer's discretion, or even relevant to the document. Reports that fail are filtered out as false positives.</p>
+      </div>
+    </div>
+    <div class="figure-block-wrapper">
+      <div class="figure-block figure-padded">
+        <img src="assets/img/ctx_constructor_flow.png" alt="Context Constructor workflow" loading="lazy" />
+        <div class="figure-caption">The Context Constructor resolves reference tags to specific sections or keyphrases, retrieves RFC section content via semantic search, and summarizes non-RFC documents via a web-enabled LLM.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS ── -->
+<section id="results" aria-labelledby="results-title" class="section-bg-white">
+  <div class="container">
+    <div class="section-label">Evaluation</div>
+    <h2 class="section-title" id="results-title">Results</h2>
+    <p class="section-desc">
+      We evaluated RFCScope on 20 recent DNS-related Proposed Standard RFCs, discovering 31 previously unreported ambiguities across 14 of these RFCs.
+    </p>
+    <div class="results-grid">
+      <div class="figure-block">
+        <img src="assets/img/rfc_errata_count.png" alt="Errata counts per RFC across pipeline stages" loading="lazy" />
+        <div class="figure-caption">Errata counts at each pipeline stage across the 20 target RFCs. The Analyzer produced 281 initial reports, the Evaluator filtered these to 137, and manual inspection yielded 31 final findings.</div>
+      </div>
+      <div class="figure-block figure-padded results-pie-block">
+        <img src="assets/img/error_cat_pie.png" alt="Distribution of detected bugs by category" loading="lazy" />
+        <div class="figure-caption">Distribution of the 31 detected ambiguities across all seven subtypes — 17 inconsistencies and 14 under-specifications.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VERIFIED ERRATA ── -->
+<section id="errata" aria-labelledby="errata-title">
+  <div class="container">
+    <div class="section-label">Real-World Impact</div>
+    <h2 class="section-title" id="errata-title">Officially verified errata</h2>
+    <p class="section-desc">
+      Three of RFCScope's findings have been submitted to the RFC Editor Errata Portal and officially verified as technical errata.
+    </p>
+    <div class="errata-grid">
+
+      <div class="errata-card">
+        <div class="errata-card-header">
+          <span class="errata-id">Errata 8431 &nbsp;·&nbsp; RFC 9445</span>
+          <span><span class="tag tag-i" style="font-size:0.72rem;">I-2</span> &nbsp;<a href="https://www.rfc-editor.org/errata/eid8431" target="_blank" rel="noopener noreferrer">View ↗</a></span>
+        </div>
+        <div class="errata-card-body">
+          <pre><strong>Section 5</strong> (Spec 1):
+
+...replies with an Access-Accept message (possibly after having sent a RADIUS <mark class="highlight-red">Access-Challenge</mark> message)...
+
+<strong>Section 7, Table of Attributes</strong> (Spec 2):
+
+| Access-Request | ... | <mark class="highlight-red">Challenge</mark> | ...</pre>
+          <div class="errata-verified">✓ Officially verified</div>
+        </div>
+      </div>
+
+      <div class="errata-card">
+        <div class="errata-card-header">
+          <span class="errata-id">Errata 8426 &nbsp;·&nbsp; RFC 9619</span>
+          <span><span class="tag tag-i" style="font-size:0.72rem;">I-2</span> &nbsp;<a href="https://www.rfc-editor.org/errata/eid8426" target="_blank" rel="noopener noreferrer">View ↗</a></span>
+        </div>
+        <div class="errata-card-body">
+          <pre><strong>Section 1, Introduction</strong>:
+
+...clarify the allowable values of the <mark class="highlight-red">QDCOUNT</mark> parameter in the specific case of DNS messages with OPCODE = 0.</pre>
+          <div class="errata-verified">✓ Officially verified</div>
+        </div>
+      </div>
+
+      <div class="errata-card">
+        <div class="errata-card-header">
+          <span class="errata-id">Errata 8590 &nbsp;·&nbsp; RFC 9704</span>
+
+          <span><span class="tag tag-u" style="font-size:0.72rem;">U-4</span> &nbsp;<a href="https://www.rfc-editor.org/errata/eid8590" target="_blank" rel="noopener noreferrer">View ↗</a></span>
+        </div>
+        <div class="errata-card-body">
+          <pre><strong>RFC 9704, Section 6.2</strong> (Spec 1):
+The client performs <mark class="highlight-red">full DNSSEC validation locally [RFC6698]</mark>.
+
+<strong>RFC 6698, Section 1.3</strong> (Spec 2, referenced doc):
+
+<mark class="highlight-red">This document does not specify how DNSSEC validation occurs</mark>...</pre>
+          <div class="errata-verified">✓ Officially verified</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── REPO ── -->
+<section id="repo" aria-labelledby="repo-title" class="section-bg-white">
+  <div class="container">
+    <div class="section-label">Artifact</div>
+    <h2 class="section-title" id="repo-title">What's in the repository</h2>
+    <p class="section-desc">All data, prompts, and code are publicly available to support reproducibility and future research.</p>
+    <div class="repo-grid">
+      <a class="repo-card" href="https://github.com/HIPREL-Group/RFCScope/tree/main/studied-errata" target="_blank" rel="noopener noreferrer">
+        <div class="repo-card-icon" aria-hidden="true">📂</div>
+        <h3>studied-errata/</h3>
+        <p>273 manually categorized errata from Standards Track RFCs (2014–2025), organized by all 7 subtypes.</p>
+      </a>
+      <a class="repo-card" href="https://github.com/HIPREL-Group/RFCScope/tree/main/detected-bugs" target="_blank" rel="noopener noreferrer">
+        <div class="repo-card-icon" aria-hidden="true">🐛</div>
+        <h3>detected-bugs/</h3>
+        <p>31 new ambiguity findings across 14 RFCs, each with a bug report, category, and confirmation status.</p>
+      </a>
+      <a class="repo-card" href="https://github.com/HIPREL-Group/RFCScope/tree/main/prompts" target="_blank" rel="noopener noreferrer">
+        <div class="repo-card-icon" aria-hidden="true">💬</div>
+        <h3>prompts/</h3>
+        <p>System and user prompt templates for the Analyzer and Evaluator, for both inconsistency and under-specification detection.</p>
+      </a>
+      <a class="repo-card" href="https://github.com/HIPREL-Group/RFCScope/tree/main/RFCScope" target="_blank" rel="noopener noreferrer">
+        <div class="repo-card-icon" aria-hidden="true">⚙️</div>
+        <h3>RFCScope/</h3>
+        <p>Full implementation of the RFCScope tool. See the README inside for setup and usage instructions.</p>
+      </a>
+    </div>
+    <div class="repo-actions">
+      <a class="btn btn-dark" href="https://github.com/HIPREL-Group/RFCScope" target="_blank" rel="noopener noreferrer">⭐ View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CITE ── -->
+<section id="cite" aria-labelledby="cite-title">
+  <div class="container">
+    <div class="section-label">Citation</div>
+    <h2 class="section-title" id="cite-title">Cite this work</h2>
+    <p class="section-desc">If you use RFCScope or our errata dataset in your research, please cite as follows.</p>
+    <pre class="cite-block"><code>@inproceedings{rfcscope,
+  author={Pawagi, Mrigank and Shao, Lize and Lee, Hyeonmin and Sun, Yixin and Wang, Wenxi},
+  booktitle={2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  title={RFCScope: Detecting Logical Ambiguities in Internet Protocol Specifications},
+  year={2025},
+  doi={10.1109/ASE63991.2025.00106}
+}</code></pre>
+  </div>
+</section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logos">
+    <a href="https://wenxiwang.github.io/group.html" target="_blank" rel="noopener noreferrer">
+      <img src="assets/img/hiprel.png" alt="HIPREL Research Group" />
+    </a>
+  </div>
+  <p>
+    RFCScope &nbsp;·&nbsp;
+    <a href="https://github.com/HIPREL-Group/RFCScope" target="_blank" rel="noopener noreferrer">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://ieeexplore.ieee.org/document/11334266" target="_blank" rel="noopener noreferrer">Paper</a>
+  </p>
+</footer>
+
+</body>
+</html>
