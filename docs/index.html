@@ -414,22 +414,5 @@ DNSSEC validation occurs</mark>...</pre>
   </p>
 </footer>
 
-<script>
-  function matchPieHeight() {
-    if (window.innerWidth <= 700) return;
-    const grid = document.querySelector('.results-grid');
-    if (!grid) return;
-    const leftImg = grid.querySelector('.figure-block:first-child img');
-    const rightImg = grid.querySelector('.results-pie-block img');
-    if (!leftImg || !rightImg) return;
-    rightImg.style.height = leftImg.offsetHeight + 'px';
-    rightImg.style.width = 'auto';
-    rightImg.style.maxWidth = '100%';
-  }
-
-  window.addEventListener('load', matchPieHeight);
-  window.addEventListener('resize', matchPieHeight);
-</script>
-
 </body>
 </html>
