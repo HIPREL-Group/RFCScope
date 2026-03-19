@@ -14,13 +14,13 @@
   <meta property="og:url" content="https://hiprel-group.github.io/RFCScope/" />
   <meta property="og:title" content="RFCScope — Detecting Logical Ambiguities in Internet Protocol Specifications" />
   <meta property="og:description" content="RFCScope is the first automated framework for detecting logical ambiguities in IETF RFC protocol specifications, published at ASE 2025." />
-  <meta property="og:image" content="https://hiprel-group.github.io/RFCScope/assets/img/approach.jpg" />
+  <meta property="og:image" content="https://hiprel-group.github.io/RFCScope/assets/img/method_flow.png" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="RFCScope — Detecting Logical Ambiguities in Internet Protocol Specifications" />
   <meta name="twitter:description" content="RFCScope is the first automated framework for detecting logical ambiguities in IETF RFC protocol specifications, published at ASE 2025." />
-  <meta name="twitter:image" content="https://hiprel-group.github.io/RFCScope/assets/img/approach.jpg" />
+  <meta name="twitter:image" content="https://hiprel-group.github.io/RFCScope/assets/img/method_flow.png" />
 
   <link rel="icon" href="assets/img/hiprel-icon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -227,9 +227,9 @@
     <div class="section-label">Methodology</div>
     <h2 class="section-title" id="approach-title">How RFCScope works</h2>
     <p class="section-desc">
-      RFCScope is a four-stage LLM pipeline. Given an RFC, it builds targeted cross-document context, partitions the spec into analysis-ready segments, detects ambiguities with type-aware prompts, and filters false positives through structured re-validation.
+      RFCScope is a four-stage LLM pipeline. Given an RFC, the Context Constructor builds cross-document context by retrieving relevant content from all referenced documents. The Partitioner then splits the RFC and its context into self-contained segments. For each segment, the Analyzer identifies potential ambiguities and produces candidate errata reports. Finally, the Evaluator filters out false positives, and the remaining reports undergo a manual review.
     </p>
-    <div class="figure-block figure-block-spaced">
+    <div class="figure-block figure-block-spaced figure-padded">
       <img src="assets/img/method_flow.png" alt="RFCScope pipeline overview" loading="lazy" />
       <div class="figure-caption">End-to-end overview of the RFCScope pipeline, from raw RFC input to verified errata reports.</div>
     </div>
@@ -256,7 +256,7 @@
       </div>
     </div>
     <div class="figure-block-wrapper">
-      <div class="figure-block">
+      <div class="figure-block figure-padded">
         <img src="assets/img/ctx_constructor_flow.png" alt="Context Constructor workflow" loading="lazy" />
         <div class="figure-caption">The Context Constructor resolves reference tags to specific sections or keyphrases, retrieves RFC section content via semantic search, and summarizes non-RFC documents via a web-enabled LLM.</div>
       </div>
@@ -280,12 +280,6 @@
       <div class="figure-block">
         <img src="assets/img/error_cat_pie.png" alt="Distribution of detected bugs by category" loading="lazy" />
         <div class="figure-caption">Distribution of the 31 detected ambiguities across all seven subtypes — 17 inconsistencies and 14 under-specifications.</div>
-      </div>
-    </div>
-    <div class="figure-block-wrapper">
-      <div class="figure-block">
-        <img src="assets/img/ablation_heatmap.png" alt="Ablation study results" loading="lazy" />
-        <div class="figure-caption">Ablation study: removing any single component substantially reduces detection. The Partitioner has the greatest impact, followed by the Context Constructor, then domain-specific knowledge. The only applicable baseline (Mahbub et al.) detected just 1 ambiguity vs. RFCScope's 31.</div>
       </div>
     </div>
   </div>

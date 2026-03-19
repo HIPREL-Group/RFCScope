@@ -252,6 +252,7 @@ section.section-bg-white { background: #fff; }
 }
 .figure-block-spaced { margin-bottom: 2rem; }
 .figure-block-wrapper { margin-top: 2.5rem; }
+.figure-padded img { padding: 1.25rem; background: #fff; }
 
 /* ── PIPELINE STEPS ── */
 .pipeline-steps {
