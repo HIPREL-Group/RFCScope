@@ -42,7 +42,19 @@
     <li><a href="#results">Results</a></li>
     <li><a href="#errata">Errata</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="mobile-menu" aria-hidden="true">
+  <ul>
+    <li><a href="#motivation">Background</a></li>
+    <li><a href="#study">Study</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#errata">Errata</a></li>
+  </ul>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero" id="hero">
@@ -429,6 +441,48 @@ The client performs <mark class="highlight-red">full DNSSEC validation locally [
     <a href="https://ieeexplore.ieee.org/document/11334266" target="_blank" rel="noopener noreferrer">Paper</a>
   </p>
 </footer>
+<script>
+  (function () {
+    var hamburger = document.querySelector('.nav-hamburger');
+    var mobileMenu = document.getElementById('mobile-menu');
+
+    if (!hamburger || !mobileMenu) { return; }
+
+    function onDocClick(e) {
+      if (!e.target.closest('nav') && !e.target.closest('.nav-mobile')) {
+        closeMenu();
+      }
+    }
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Close navigation menu');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      document.addEventListener('click', onDocClick);
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open navigation menu');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('click', onDocClick);
+    }
+
+    hamburger.addEventListener('click', function () {
+      if (mobileMenu.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+  })();
+</script>
 
 </body>
 </html>
